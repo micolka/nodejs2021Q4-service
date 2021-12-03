@@ -1,5 +1,21 @@
 const usersRepo = require('./user.memory.repository');
+const User = require('./user.model');
 
 const getAll = () => usersRepo.getAll();
 
-module.exports = { getAll };
+const addUser = (user) => usersRepo.addUser(new User(user));
+
+const getUser = async (id) => {
+    const user = await usersRepo.getUser(id);
+    if (user) return User.toResponse(user)
+    return null;
+}
+
+const updateUser = async (id, data) => {
+    const user = await usersRepo.updateUser(id, data)
+
+    if (user) return User.toResponse(user)
+    return null; 
+}
+
+module.exports = { getAll, addUser, getUser, updateUser };
