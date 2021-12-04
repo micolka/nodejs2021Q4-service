@@ -15,5 +15,7 @@ app.get('/', async () => ({ hello: 'world'}))
 // app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.register(require('./resources/users/user.router'))
+app.register(require('./resources/board/board.router'))
+app.register(require('./resources/tasks/task.router'))
 
 module.exports = app;
