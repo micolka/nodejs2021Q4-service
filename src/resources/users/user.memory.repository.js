@@ -18,4 +18,10 @@ const updateUser = async (id, data) => {
     return users[index]
 }
 
-module.exports = { getAll, addUser, getUser, updateUser };
+const deleteUser = async (id) => {
+    const index = users.findIndex((el) => el.id === id)
+    if (index === -1) return null
+    return users.splice(index, 1)[0]  
+}
+
+module.exports = { getAll, addUser, getUser, updateUser, deleteUser };

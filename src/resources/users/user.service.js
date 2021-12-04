@@ -1,4 +1,5 @@
 const usersRepo = require('./user.memory.repository');
+const tasksRepo = require('../tasks/task.memory.repository');
 const User = require('./user.model');
 
 const getAll = () => usersRepo.getAll();
@@ -20,8 +21,9 @@ const updateUser = async (id, data) => {
 
 const deleteUser = async (id) => {
     const user = await usersRepo.deleteUser(id)
-    if (user) return User.toResponse(user)
-    return null; 
+    if (!user) return null;  
+    await tasksRepo.unassignUser(id)
+    return User.toResponse(user);
 }
 
 module.exports = { getAll, addUser, getUser, updateUser, deleteUser };
