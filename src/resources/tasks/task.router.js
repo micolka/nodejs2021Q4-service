@@ -46,12 +46,7 @@ const tasksRouter = (fastify, opts, done) => {
       const { boardId, id } = req.params;
       const task = await tasksService.getTask(boardId, id);
 
-      if (!task) {
-        return res.status(404).send(new Error('Task not found'));
-      }
-
-      console.log(task);
-
+      if (!task) return res.status(404).send(new Error('Task not found'));
       return res.send({...task})
     }
   })
@@ -86,10 +81,7 @@ const tasksRouter = (fastify, opts, done) => {
       const data = req.body;
       const task = await tasksService.updateTask(boardId, id, data)
       
-      if (!task) {
-        return res.status(404).send(new Error('User not found'));
-      }
-
+      if (!task) return res.status(404).send(new Error('User not found'));
       return res.status(200).send(task)
     }
   })
@@ -106,10 +98,8 @@ const tasksRouter = (fastify, opts, done) => {
     handler: async (req, res) => {
       const { boardId, id } = req.params;
       const user = await tasksService.deleteTask(boardId, id )
-      if (!user) {
-        return res.status(404).send(new Error('User not found'));
-      }
-
+      
+      if (!user) return res.status(404).send(new Error('User not found'));
       return res.status(204).send()
     }
   })

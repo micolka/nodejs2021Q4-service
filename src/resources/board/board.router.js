@@ -1,5 +1,14 @@
 const boardsService = require('./board.service');
 
+const respoceSchema = {
+  type: 'object',
+  properties: {
+    id: { type: 'string' },
+    title: { type: 'string' },
+    columns: { type: 'array' }
+  }
+};
+
 const boardRouter = (fastify, opts, done) => {
 
   fastify.route({
@@ -25,23 +34,13 @@ const boardRouter = (fastify, opts, done) => {
     preValidation: [fastify.onRequest],
     schema: {
       response: {
-        200: {
-          type: 'object',
-          properties: {
-            id: { type: 'string' },
-            title: { type: 'string' },
-            columns: { type: 'array' }
-          }
-        }
+        200: respoceSchema
       }
     },
     handler: async (req, res) => {
       const board = await boardsService.getBoard(req.params.id)
 
-      if (!board) {
-        return res.status(404).send(new Error('User not found'));
-      }
-
+      if (!board) return res.status(404).send(new Error('User not found'));
       return res.send({...board})
     }
   })
@@ -52,14 +51,7 @@ const boardRouter = (fastify, opts, done) => {
     preValidation: [fastify.onRequest],
     schema: {
       response: {
-        201: {
-          type: 'object',
-          properties: {
-            id: { type: 'string' },
-            title: { type: 'string' },
-            columns: { type: 'array' }
-          }
-        }
+        201: respoceSchema
       }
     },
     handler: async (req, res) => {
@@ -74,14 +66,7 @@ const boardRouter = (fastify, opts, done) => {
     preValidation: [fastify.onRequest],
     schema: {
       response: {
-        200: {
-          type: 'object',
-          properties: {
-            id: { type: 'string' },
-            title: { type: 'string' },
-            columns: { type: 'array' }
-          }
-        }
+        200: respoceSchema
       }
     },
     handler: async (req, res) => {
@@ -89,10 +74,7 @@ const boardRouter = (fastify, opts, done) => {
       const data = req.body;
       const board = await boardsService.updateBoard(id, data)
       
-      if (!board) {
-        return res.status(404).send(new Error('Board not found'));
-      }
-
+      if (!board) return res.status(404).send(new Error('Board not found'));
       return res.status(200).send({...board})
     }
   })
@@ -109,10 +91,8 @@ const boardRouter = (fastify, opts, done) => {
     handler: async (req, res) => {
       const { id } = req.params;
       const board = await boardsService.deleteBoard(id)
-      if (!board) {
-        return res.status(404).send(new Error('Board not found'));
-      }
-
+      
+      if (!board) return res.status(404).send(new Error('Board not found'));
       return res.status(204).send()
     }
   })
