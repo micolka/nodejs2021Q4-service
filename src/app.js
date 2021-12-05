@@ -1,24 +1,39 @@
-const express = require('express');
-const swaggerUI = require('swagger-ui-express');
 const path = require('path');
-const YAML = require('yamljs');
-const userRouter = require('./resources/users/user.router');
+const app = require('fastify')({logger: true})
 
-const app = express();
-const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
+app.get('/', async () => ({ hello: 'world'}))
 
-app.use(express.json());
+app.register(require('fastify-swagger'), {
+  mode: 'static',
+  specification: {
+      path: path.join(__dirname, '../doc/api.yaml'),
+  },
+  exposeRoute: true,
+  routePrefix: '/doc',
+})
 
-app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.register(require('./resources/users/user.router'))
+app.register(require('./resources/board/board.router'))
+app.register(require('./resources/tasks/task.router'))
 
-app.use('/', (req, res, next) => {
-  if (req.originalUrl === '/') {
-    res.send('Service is running!');
-    return;
+app.register(require('fastify-jwt'), {
+  secret: 'nodejs2021Q4-service-supersecret'
+})
+
+app.decorate("onRequest", async (request, reply) => {
+  try {
+    await request.jwtVerify()
+  } catch (err) {
+    reply.send(err)
   }
-  next();
-});
+})
 
-app.use('/users', userRouter);
+app.post(
+  '/login', 
+  (req, reply) => {
+  const { login, password } = req.body;
+  const token = app.jwt.sign({ login, password })
+  reply.send({ token })
+})
 
 module.exports = app;

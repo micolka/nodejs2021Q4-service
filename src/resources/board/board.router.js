@@ -1,19 +1,19 @@
-const usersService = require('./user.service');
+const boardsService = require('./board.service');
 
-const responseSchema = {
+const respoceSchema = {
   type: 'object',
   properties: {
     id: { type: 'string' },
-    name: { type: 'string' },
-    login: { type: 'string' }
+    title: { type: 'string' },
+    columns: { type: 'array' }
   }
 };
 
-const usersRouter = (fastify, opts, done) => {
+const boardRouter = (fastify, opts, done) => {
 
   fastify.route({
     method: 'GET',
-    url: '/users',
+    url: '/boards',
     preValidation: [fastify.onRequest],
     schema: {
       response: {
@@ -23,65 +23,65 @@ const usersRouter = (fastify, opts, done) => {
       }
     },
     handler: async (req, res) => {
-      const users = await usersService.getAll()
-      return res.send(users)
+      const boards = await boardsService.getAll()
+      return res.send(boards)
     }
   })
 
   fastify.route({
     method: 'GET',
-    url: '/users/:id',
+    url: '/boards/:id',
     preValidation: [fastify.onRequest],
     schema: {
       response: {
-        200: responseSchema
+        200: respoceSchema
       }
     },
     handler: async (req, res) => {
-      const user = await usersService.getUser(req.params.id)
+      const board = await boardsService.getBoard(req.params.id)
 
-      if (!user) return res.status(404).send(new Error('User not found'));
-      return res.send({...user})
+      if (!board) return res.status(404).send(new Error('User not found'));
+      return res.send({...board})
     }
   })
 
   fastify.route({
     method: 'POST',
-    url: '/users',
+    url: '/boards',
     preValidation: [fastify.onRequest],
     schema: {
       response: {
-        201: responseSchema
+        201: respoceSchema
       }
     },
     handler: async (req, res) => {
-      const user = await usersService.addUser(req.body)
-      return res.status(201).send({...user})
+      const board = await boardsService.addBoard(req.body)
+      return res.status(201).send({...board})
     }
   })
 
   fastify.route({
     method: 'PUT',
-    url: '/users/:id',
+    url: '/boards/:id',
     preValidation: [fastify.onRequest],
     schema: {
       response: {
-        200: responseSchema
+        200: respoceSchema
       }
     },
     handler: async (req, res) => {
       const { id } = req.params;
       const data = req.body;
-      const user = await usersService.updateUser(id, data)
+      const board = await boardsService.updateBoard(id, data)
       
-      if (!user) return res.status(404).send(new Error('User not found'));
-      return res.status(200).send({...user})
+      if (!board) return res.status(404).send(new Error('Board not found'));
+      return res.status(200).send({...board})
     }
   })
 
   fastify.route({
     method: 'DELETE',
-    url: '/users/:id',
+    url: '/boards/:id',
     preValidation: [fastify.onRequest],
     schema: {
       response: {
@@ -90,9 +90,9 @@ const usersRouter = (fastify, opts, done) => {
     },
     handler: async (req, res) => {
       const { id } = req.params;
-      const user = await usersService.deleteUser(id)
+      const board = await boardsService.deleteBoard(id)
       
-      if (!user) return res.status(404).send(new Error('User not found'));
+      if (!board) return res.status(404).send(new Error('Board not found'));
       return res.status(204).send()
     }
   })
@@ -100,4 +100,4 @@ const usersRouter = (fastify, opts, done) => {
   done();
 }
 
-module.exports = usersRouter;
+module.exports = boardRouter;
