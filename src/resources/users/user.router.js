@@ -14,7 +14,6 @@ const usersRouter = (fastify, opts, done) => {
   fastify.route({
     method: 'GET',
     url: '/users',
-    preValidation: [fastify.onRequest],
     schema: {
       response: {
         200: {
@@ -31,7 +30,6 @@ const usersRouter = (fastify, opts, done) => {
   fastify.route({
     method: 'GET',
     url: '/users/:id',
-    preValidation: [fastify.onRequest],
     schema: {
       response: {
         200: responseSchema
@@ -48,7 +46,6 @@ const usersRouter = (fastify, opts, done) => {
   fastify.route({
     method: 'POST',
     url: '/users',
-    preValidation: [fastify.onRequest],
     schema: {
       response: {
         201: responseSchema
@@ -63,7 +60,6 @@ const usersRouter = (fastify, opts, done) => {
   fastify.route({
     method: 'PUT',
     url: '/users/:id',
-    preValidation: [fastify.onRequest],
     schema: {
       response: {
         200: responseSchema
@@ -82,7 +78,6 @@ const usersRouter = (fastify, opts, done) => {
   fastify.route({
     method: 'DELETE',
     url: '/users/:id',
-    preValidation: [fastify.onRequest],
     schema: {
       response: {
         204: {}

@@ -14,7 +14,6 @@ const boardRouter = (fastify, opts, done) => {
   fastify.route({
     method: 'GET',
     url: '/boards',
-    preValidation: [fastify.onRequest],
     schema: {
       response: {
         200: {
@@ -31,7 +30,6 @@ const boardRouter = (fastify, opts, done) => {
   fastify.route({
     method: 'GET',
     url: '/boards/:id',
-    preValidation: [fastify.onRequest],
     schema: {
       response: {
         200: respoceSchema
@@ -48,7 +46,6 @@ const boardRouter = (fastify, opts, done) => {
   fastify.route({
     method: 'POST',
     url: '/boards',
-    preValidation: [fastify.onRequest],
     schema: {
       response: {
         201: respoceSchema
@@ -63,7 +60,6 @@ const boardRouter = (fastify, opts, done) => {
   fastify.route({
     method: 'PUT',
     url: '/boards/:id',
-    preValidation: [fastify.onRequest],
     schema: {
       response: {
         200: respoceSchema
@@ -82,7 +78,6 @@ const boardRouter = (fastify, opts, done) => {
   fastify.route({
     method: 'DELETE',
     url: '/boards/:id',
-    preValidation: [fastify.onRequest],
     schema: {
       response: {
         204: {}
