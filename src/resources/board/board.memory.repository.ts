@@ -1,4 +1,4 @@
-type TColumns = {
+export type TColumns = {
     id?: string;
 }
 
