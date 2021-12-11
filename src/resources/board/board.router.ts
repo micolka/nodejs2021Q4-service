@@ -1,6 +1,6 @@
-import { FastifyInstance, FastifyPluginOptions } from 'fastify';
+import { FastifyInstance, FastifyPluginOptions } from 'fastify'
 import boardsService from './board.service'
-import { TBoard } from "./board.memory.repository";
+import { TBoard } from "./board.memory.repository"
 
 const respoceSchema = {
   type: 'object',
@@ -9,7 +9,7 @@ const respoceSchema = {
     title: { type: 'string' },
     columns: { type: 'array' }
   }
-} as const;
+} as const
 
 const boardRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done: () => void) => {
 
@@ -40,7 +40,7 @@ const boardRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done:
     handler: async (req, res) => {
       const board = await boardsService.getBoard(req.params.id)
 
-      if (!board) return res.status(404).send(new Error('User not found'));
+      if (!board) return res.status(404).send(new Error('User not found'))
       return res.send({...board})
     }
   })
@@ -68,11 +68,11 @@ const boardRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done:
       }
     },
     handler: async (req, res) => {
-      const { id } = req.params;
-      const data = req.body;
+      const { id } = req.params
+      const data = req.body
       const board = await boardsService.updateBoard(id, data)
       
-      if (!board) return res.status(404).send(new Error('Board not found'));
+      if (!board) return res.status(404).send(new Error('Board not found'))
       return res.status(200).send({...board})
     }
   })
@@ -86,15 +86,15 @@ const boardRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done:
       }
     },
     handler: async (req, res) => {
-      const { id } = req.params;
+      const { id } = req.params
       const board = await boardsService.deleteBoard(id)
       
-      if (!board) return res.status(404).send(new Error('Board not found'));
+      if (!board) return res.status(404).send(new Error('Board not found'))
       return res.status(204).send()
     }
   })
 
-  done();
+  done()
 }
 
-export default boardRouter;
+export default boardRouter

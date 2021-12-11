@@ -1,7 +1,9 @@
-import * as path from 'path';
-import fastify from 'fastify';
+import * as path from 'path'
+import fastify from 'fastify'
 
 import boardRouter from './resources/board/board.router'
+import tasksRouter from './resources/tasks/task.router'
+import usersRouter from './resources/users/user.router'
 
 const app = fastify({logger: true})
 
@@ -16,9 +18,8 @@ app.register(require('fastify-swagger'), {
   routePrefix: '/doc',
 })
 
-app.register(require('./resources/users/user.router'))
-
+app.register(usersRouter)
 app.register(boardRouter)
-app.register(require('./resources/tasks/task.router'))
+app.register(tasksRouter)
 
-export default app;
+export default app

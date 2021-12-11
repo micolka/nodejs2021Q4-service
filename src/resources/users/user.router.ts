@@ -1,4 +1,6 @@
-const usersService = require('./user.service');
+import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+import { TUser } from './user.memory.repository'
+import usersService from './user.service'
 
 const responseSchema = {
   type: 'object',
@@ -7,9 +9,9 @@ const responseSchema = {
     name: { type: 'string' },
     login: { type: 'string' }
   }
-};
+}
 
-const usersRouter = (fastify, opts, done) => {
+const usersRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done: () => void) => {
 
   fastify.route({
     method: 'GET',
@@ -27,7 +29,7 @@ const usersRouter = (fastify, opts, done) => {
     }
   })
 
-  fastify.route({
+  fastify.route<{ Params: {id: string} }>({
     method: 'GET',
     url: '/users/:id',
     schema: {
@@ -43,7 +45,7 @@ const usersRouter = (fastify, opts, done) => {
     }
   })
 
-  fastify.route({
+  fastify.route<{ Body: TUser }>({
     method: 'POST',
     url: '/users',
     schema: {
@@ -57,7 +59,7 @@ const usersRouter = (fastify, opts, done) => {
     }
   })
 
-  fastify.route({
+  fastify.route<{ Params: {id: string}, Body: TUser }>({
     method: 'PUT',
     url: '/users/:id',
     schema: {
@@ -66,8 +68,8 @@ const usersRouter = (fastify, opts, done) => {
       }
     },
     handler: async (req, res) => {
-      const { id } = req.params;
-      const data = req.body;
+      const { id } = req.params
+      const data = req.body
       const user = await usersService.updateUser(id, data)
       
       if (!user) return res.status(404).send(new Error('User not found'));
@@ -75,7 +77,7 @@ const usersRouter = (fastify, opts, done) => {
     }
   })
 
-  fastify.route({
+  fastify.route<{ Params: {id: string} }>({
     method: 'DELETE',
     url: '/users/:id',
     schema: {
@@ -84,15 +86,15 @@ const usersRouter = (fastify, opts, done) => {
       }
     },
     handler: async (req, res) => {
-      const { id } = req.params;
+      const { id } = req.params
       const user = await usersService.deleteUser(id)
       
-      if (!user) return res.status(404).send(new Error('User not found'));
+      if (!user) return res.status(404).send(new Error('User not found'))
       return res.status(204).send()
     }
   })
 
-  done();
+  done()
 }
 
-module.exports = usersRouter;
+export default usersRouter

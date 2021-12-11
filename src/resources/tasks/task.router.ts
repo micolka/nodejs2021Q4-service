@@ -1,6 +1,6 @@
-import { FastifyInstance, FastifyPluginOptions } from 'fastify';
-import { TTask } from './task.memory.repository';
-import { addTask, deleteTask, getAll, getTask, updateTask } from "./task.service";
+import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+import { TTask } from './task.memory.repository'
+import { addTask, deleteTask, getAll, getTask, updateTask } from './task.service'
 
 const responseSchema = {
   type: 'object',
@@ -28,7 +28,7 @@ const tasksRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done:
       }
     },
     handler: async (req, res) => {
-      const { boardId } = req.params;
+      const { boardId } = req.params
       const tasks = await getAll(boardId)
       return res.send(tasks)
     }
@@ -43,10 +43,10 @@ const tasksRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done:
       }
     },
     handler: async (req, res) => {
-      const { boardId, id } = req.params;
-      const task = await getTask(boardId, id);
+      const { boardId, id } = req.params
+      const task = await getTask(boardId, id)
 
-      if (!task) return res.status(404).send(new Error('Task not found'));
+      if (!task) return res.status(404).send(new Error('Task not found'))
       return res.send({...task})
     }
   })
@@ -60,9 +60,9 @@ const tasksRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done:
       }
     },
     handler: async (req, res) => {
-      const { boardId } = req.params;
-      const task = await addTask(req.body, boardId);
-      return res.status(201).send({...task});
+      const { boardId } = req.params
+      const task = await addTask(req.body, boardId)
+      return res.status(201).send({...task})
     }
   })
 
@@ -75,11 +75,11 @@ const tasksRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done:
       }
     },
     handler: async (req, res) => {
-      const { id } = req.params;
-      const data = req.body;
-      const task = await updateTask(id, data);
+      const { id } = req.params
+      const data = req.body
+      const task = await updateTask(id, data)
       
-      if (!task) return res.status(404).send(new Error('User not found'));
+      if (!task) return res.status(404).send(new Error('User not found'))
       return res.status(200).send(task)
     }
   })
@@ -93,15 +93,15 @@ const tasksRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done:
       }
     },
     handler: async (req, res) => {
-      const { id } = req.params;
-      const user = await deleteTask(id);
+      const { id } = req.params
+      const user = await deleteTask(id)
       
-      if (!user) return res.status(404).send(new Error('User not found'));
+      if (!user) return res.status(404).send(new Error('User not found'))
       return res.status(204).send()
     }
   })
 
-  done();
+  done()
 }
 
-export default tasksRouter;
+export default tasksRouter
