@@ -1,6 +1,12 @@
-const uuid = require('uuid');
+import * as uuid from 'uuid';
 
-class Board {
+export default class Board {
+  id: string;
+
+  title: string;
+
+  columns: string[];
+
   constructor({
     id = uuid.v4(),
     title = 'BOARD123',
@@ -12,4 +18,4 @@ class Board {
   }
 }
 
-module.exports = Board;
+export type TBoardClass = typeof Board

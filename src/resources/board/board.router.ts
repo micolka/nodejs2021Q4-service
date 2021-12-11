@@ -1,4 +1,6 @@
-const boardsService = require('./board.service');
+import { FastifyInstance, FastifyPluginOptions } from 'fastify';
+import boardsService from './board.service'
+import { TBoard } from "./board.memory.repository";
 
 const respoceSchema = {
   type: 'object',
@@ -7,9 +9,9 @@ const respoceSchema = {
     title: { type: 'string' },
     columns: { type: 'array' }
   }
-};
+} as const;
 
-const boardRouter = (fastify, opts, done) => {
+const boardRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done: () => void) => {
 
   fastify.route({
     method: 'GET',
@@ -27,7 +29,7 @@ const boardRouter = (fastify, opts, done) => {
     }
   })
 
-  fastify.route({
+  fastify.route<{ Params: {id: string} }>({
     method: 'GET',
     url: '/boards/:id',
     schema: {
@@ -43,7 +45,7 @@ const boardRouter = (fastify, opts, done) => {
     }
   })
 
-  fastify.route({
+  fastify.route<{ Body: TBoard }>({
     method: 'POST',
     url: '/boards',
     schema: {
@@ -57,7 +59,7 @@ const boardRouter = (fastify, opts, done) => {
     }
   })
 
-  fastify.route({
+  fastify.route<{ Params: {id: string}, Body: TBoard }>({
     method: 'PUT',
     url: '/boards/:id',
     schema: {
@@ -75,7 +77,7 @@ const boardRouter = (fastify, opts, done) => {
     }
   })
 
-  fastify.route({
+  fastify.route<{ Params: {id: string} }>({
     method: 'DELETE',
     url: '/boards/:id',
     schema: {
@@ -95,4 +97,4 @@ const boardRouter = (fastify, opts, done) => {
   done();
 }
 
-module.exports = boardRouter;
+export default boardRouter;
