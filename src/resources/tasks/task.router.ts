@@ -15,6 +15,13 @@ const responseSchema = {
   }
 }
 
+/**
+ * Creates fastify plugin for tasks routes
+ * @param fastify first term FastifyInstance
+ * @param opts second term FastifyPluginOptions
+ * @param done third term funcition
+ * @returns void
+ */
 const tasksRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done: () => void) => {
 
   fastify.route<{ Params: {boardId: string} }>({

@@ -11,6 +11,13 @@ const respoceSchema = {
   }
 } as const
 
+/**
+ * Creates fastify plugin for board routes
+ * @param fastify first term FastifyInstance
+ * @param opts second term FastifyPluginOptions
+ * @param done third term funcition
+ * @returns void
+ */
 const boardRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done: () => void) => {
 
   fastify.route({

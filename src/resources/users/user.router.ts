@@ -11,6 +11,13 @@ const responseSchema = {
   }
 }
 
+/**
+ * Creates fastify plugin for userstasks routes
+ * @param fastify first term FastifyInstance
+ * @param opts second term FastifyPluginOptions
+ * @param done third term funcition
+ * @returns void
+ */
 const usersRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done: () => void) => {
 
   fastify.route({
