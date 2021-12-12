@@ -1,3 +1,4 @@
+import * as uuid from 'uuid'
 import { unassignUser } from '../tasks/task.memory.repository'
 import usersRepo, { TUser } from './user.memory.repository'
 
@@ -8,7 +9,7 @@ const toResponse = (user: TUser) => {
 
 const getAll = () => usersRepo.getAll()
 
-const addUser = (user: TUser) => usersRepo.addUser(user);
+const addUser = (user: TUser) => usersRepo.addUser({id: uuid.v4(), ...user});
 
 const getUser = async (id: string) => {
     const user = await usersRepo.getUser(id);

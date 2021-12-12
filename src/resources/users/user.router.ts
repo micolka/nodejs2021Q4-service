@@ -55,6 +55,7 @@ const usersRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done:
     },
     handler: async (req, res) => {
       const user = await usersService.addUser(req.body)
+           
       return res.status(201).send({...user})
     }
   })
