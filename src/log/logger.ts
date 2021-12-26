@@ -6,9 +6,19 @@ import * as path from 'path'
 
 export class Logger {
   constructor(app: FastifyInstance) {
-    app.addHook('onResponse', (req, rep, done) => {
-      this.logParams(req, rep)
+    app.addHook('onResponse', (request, reply, done) => {
+      this.logParams(request, reply)
       done()
+    })
+
+    app.setErrorHandler((error, req, rep) => {
+      const { body, url, params } = req
+      const { statusCode } = rep
+
+      const outStr = `WARN [message]: ${error.message}, [time]: ${Date.now()}, [url]: ${url}, [params]: ${JSON.stringify(params)}, [code]: ${statusCode}, [body]: ${JSON.stringify(body)}\n`
+      console.warn(outStr)
+      this.writeInfoToFile(outStr)
+      rep.status(404).send({ ok: false })
     })
   }
 
@@ -16,7 +26,7 @@ export class Logger {
     const { body, url, params } = req
     const { statusCode } = rep
 
-    const outStr = `[time]: ${Date.now()}, [url]: ${url}, [params]: ${JSON.stringify(params)}, [code]: ${statusCode}, [body]: ${JSON.stringify(body)}\n`
+    const outStr = `LOG [time]: ${Date.now()}, [url]: ${url}, [params]: ${JSON.stringify(params)}, [code]: ${statusCode}, [body]: ${JSON.stringify(body)}\n`
     console.log(outStr)
     this.writeInfoToFile(outStr)
   }

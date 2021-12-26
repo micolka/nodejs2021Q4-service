@@ -47,7 +47,7 @@ const boardRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done:
     handler: async (req, res) => {
       const board = await boardsService.getBoard(req.params.id)
 
-      if (!board) return res.status(404).send(new Error('User not found'))
+      if (!board) return res.send(new Error('User not found'))
       return res.send({...board})
     }
   })
@@ -79,7 +79,7 @@ const boardRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done:
       const data = req.body
       const board = await boardsService.updateBoard(id, data)
       
-      if (!board) return res.status(404).send(new Error('Board not found'))
+      if (!board) return res.send(new Error('Board not found'))
       return res.status(200).send({...board})
     }
   })
@@ -96,7 +96,7 @@ const boardRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done:
       const { id } = req.params
       const board = await boardsService.deleteBoard(id)
       
-      if (!board) return res.status(404).send(new Error('Board not found'))
+      if (!board) return res.send(new Error('Board not found'))
       return res.status(204).send()
     }
   })

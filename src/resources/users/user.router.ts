@@ -47,7 +47,7 @@ const usersRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done:
     handler: async (req, res) => {
       const user = await usersService.getUser(req.params.id)
 
-      if (!user) return res.status(404).send(new Error('User not found'));
+      if (!user) return res.send(new Error('User not found'));
       return res.send({...user})
     }
   })
@@ -80,7 +80,7 @@ const usersRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done:
       const data = req.body
       const user = await usersService.updateUser(id, data)
       
-      if (!user) return res.status(404).send(new Error('User not found'));
+      if (!user) return res.send(new Error('User not found'));
       return res.status(200).send({...user})
     }
   })
@@ -97,7 +97,7 @@ const usersRouter = (fastify: FastifyInstance, opts: FastifyPluginOptions, done:
       const { id } = req.params
       const user = await usersService.deleteUser(id)
       
-      if (!user) return res.status(404).send(new Error('User not found'))
+      if (!user) return res.send(new Error('User not found'))
       return res.status(204).send()
     }
   })
