@@ -4,7 +4,6 @@ import fastify from 'fastify'
 import boardRouter from './resources/board/board.router'
 import tasksRouter from './resources/tasks/task.router'
 import usersRouter from './resources/users/user.router'
-import { Logger } from './log/logger'
 
 const app = fastify()
 
@@ -22,6 +21,5 @@ app.register(require('fastify-swagger'), {
 app.register(usersRouter)
 app.register(boardRouter)
 app.register(tasksRouter)
-new Logger(app);
 
 export default app

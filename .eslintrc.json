@@ -46,6 +46,7 @@
     "node/no-missing-import": "off",
     "no-new": "off",
     "class-methods-use-this": "off",
-    "no-undef": "off"
+    "no-undef": "off",
+    "no-console": "off"
   }
 }

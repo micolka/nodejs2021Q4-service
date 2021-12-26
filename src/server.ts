@@ -7,10 +7,12 @@ const { PORT } = appSettings
 app.listen(PORT as string, () =>
   console.log(`App is running on http://localhost:${PORT}`)
 )
-process.on('uncaughtException', Logger.logUncaughtException)
 
-// throw Error('Oops!');
+new Logger(app);
+
+process.on('uncaughtException', Logger.logUncaughtException)
 
 process.on('unhandledRejection', Logger.logUnhandledRejection)
 
+// throw Error('Oops!');
 // Promise.reject(Error('Oops!'));
