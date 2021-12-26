@@ -44,6 +44,8 @@
     "@typescript-eslint/no-explicit-any": "error",
     "import/no-unresolved": "off",
     "node/no-missing-import": "off",
-    "no-new": "off"
+    "no-new": "off",
+    "class-methods-use-this": "off",
+    "no-undef": "off"
   }
 }
